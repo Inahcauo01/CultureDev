@@ -13,10 +13,12 @@ body{
     overflow: hidden;
 }
 .image-form{
-    background-color: #000080;
+    background-color: #6d92ff;
+    /* border-radius: 20px 0 0 20px; */
 }
-.image-login{
+.image-login, .image-signup{
     width: 90%;
+    margin: auto;
 }
 .form-label{
     position: absolute;
@@ -35,10 +37,10 @@ body{
 }
 .form-control:focus{
     background: none;
-    outline: 3px solid #000080;
+    outline: 1px solid #000080;
     box-shadow: none;
 }
-.form-control:is(:focus,:invalid) + .form-label{
+.form-control:is(:focus,:valid) + .form-label{
     margin-top: -57px;
     font-size: 12px;
     transition: 0.3s ease-in-out;
@@ -56,7 +58,7 @@ body{
 }
 .eye{
     position: absolute;
-    right: 0;
+    right: 10px;
     top: 50%;
     transform: translateY(-50%);
 }
