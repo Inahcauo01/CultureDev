@@ -12,29 +12,29 @@
 <body>
     <div class="container d-flex">
         <div class="image-form col-5 d-flex align-items-center">
-            <img src="assets/images/Typing-bro.svg" class="image-login">
-            <img src="assets/images/Get in.png" class="image-signup hide">
+            <img src="assets/images/Typing-bro.svg" class="image-login img">
+            <img src="assets/images/Get in.png" class="image-signup img hide">
         </div>
         <div class="form-container col-7 p-5">
                 <!-- signup -->
                 <form action="" method="post" class="sign-up w-100">
                     <h2>Sign up</h2>
-                    <div class="mt-5 mb-3">
-                        <input type="text" class="form-control" id="InputfirstName" required>
+                    <div class="mt-3 mb-2">
+                        <input type="text" class="form-control" id="input-fname" required>
                         <label class="form-label">First name</label>
-                        <div id="email-error" class="form-text hide" >first name invalide</div>
+                        <div id="fname-error" class="form-text hide" >first name invalide</div>
                     </div>
                     <div class="mt-5 mb-3 mt-2">
-                        <input type="text" class="form-control" id="InputlastName" required>
+                        <input type="text" class="form-control" id="input-lname" required>
                         <label class="form-label">Last name</label>
-                        <div id="email-error" class="form-text hide">last name invalide</div>
+                        <div id="lname-error" class="form-text hide">last name invalide</div>
                     </div>
                     <div class="mt-5 mb-3">
-                        <input type="text" class="form-control" id="InputEmail" required>
+                        <input type="text" class="form-control" id="input-email" required>
                         <label class="form-label">Email address</label>
                         <div id="email-error" class="form-text hide">Email invalide</div>
                     </div>
-                    <div class="mt-5 mb-4 position-relative">
+                    <div class="mt-5 mb-3 position-relative">
                         <i class="fa-solid fa-eye eye eye-on"></i>
                         <i class="fa-solid fa-eye-slash eye eye-off hide"></i>
                         
@@ -42,7 +42,7 @@
                         <label class="form-label">Password</label>
                         <div id="pwd-error" class="form-text hide">Password invalide</div>
                     </div>
-                    <button type="submit" class="btn btn-primary mt-5 mb-3">S'inscrire</button>
+                    <button type="submit" class="btn btn-primary mt-4 mb-3">S'inscrire</button>
                     <div class="mt-2">
                         <p><small>Avez vous déja un compte ? <span class="click-ici btn-signup">cliquer ici</span></small></p>
                     </div>
@@ -51,7 +51,7 @@
                 <form action="" method="post" class="sign-in w-100 hide">
                     <h2>Login</h2>
                     <div class="mt-5 mb-3">
-                        <input type="text" class="form-control" id="InputEmail1" required>
+                        <input type="text" class="form-control" id="input-email1" required>
                         <label class="form-label">Email address</label>
                         <div id="email1-error" class="form-text hide">Email invalide</div>
                     </div>
