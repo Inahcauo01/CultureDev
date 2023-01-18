@@ -19,6 +19,7 @@ let erroremail = document.querySelector("#email-error")
 let errorpwd   = document.querySelector("#pwd-error")
 let erroremail1= document.querySelector("#email1-error")
 let errorpwd1  = document.querySelector("#pwd1-error")
+let verified   = false;
 
 
 // afficher/cacher le mot de passe
@@ -75,20 +76,25 @@ pwdSign.addEventListener('blur', validatepassword);
 emailSign1.addEventListener('blur', validateEmail1);
 pwdSign1.addEventListener('blur', validatepassword1);
 
+// sigup form
 function validateName() {
     const re = /^[a-zA-Z]{2,12}$/;
     if(!re.test(fName.value)) {
         errorfname.classList.remove("hide")
+        verified=false;
     } else {
         errorfname.classList.add("hide")
+        verified=true;
     }
 }
 function validatelName(){
     const re = /^[a-zA-Z]{2,12}$/;
     if(!re.test(lName.value)) {
         errorlname.classList.remove("hide")
+        verified=false;
     } else {
         errorlname.classList.add("hide")
+        verified=true;
     }
 }
 function validateEmail() {
@@ -96,8 +102,10 @@ function validateEmail() {
 
     if(!re.test(emailSign.value)) {
         erroremail.classList.remove('hide');
+        verified=false;
     } else {
         erroremail.classList.add('hide');
+        verified=true;
     }
 }
 function validatepassword() {
@@ -106,17 +114,22 @@ function validatepassword() {
 
     if(!re.test(pwdSign.value)) {
         errorpwd.classList.remove('hide');
+        verified=false;
     } else {
         errorpwd.classList.add('hide');
+        verified=true;
     }
 }
+// login form
 function validateEmail1() {
     const re = /^([a-zA-Z0-9_\.\-]+)@([a-zA-Z0-9_\.\-]+)\.([a-zA-Z]{2,5})$/;
 
     if(!re.test(emailSign1.value)) {
         erroremail1.classList.remove('hide');
+        verified=false;
     } else {
         erroremail1.classList.add('hide');
+        verified=true;
     }
 }
 function validatepassword1() {
@@ -124,7 +137,14 @@ function validatepassword1() {
 
     if(!re.test(pwdSign1.value)) {
         errorpwd1.classList.remove('hide');
+        verified=false;
     } else {
         errorpwd1.classList.add('hide');
+        verified=true;
     }
 }
+
+document.querySelector("#sinscrire").addEventListener("click", (e) =>{
+    if(!verified)
+        e.preventDefault();
+})
