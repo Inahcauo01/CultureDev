@@ -2,7 +2,7 @@
     // include_once 'C:\xampp\htdocs\CultureDev\app\model\model.class.php';
     include_once 'C:\xampp\htdocs\CultureDev\app\controller\users.php';
 
-    $db = new Database();
+    $db   = new Database();
     $data = $db->getAllrows("SELECT * FROM users");
 ?>
 <!DOCTYPE html>

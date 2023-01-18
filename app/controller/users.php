@@ -1,6 +1,7 @@
 <?php
 include_once 'C:\xampp\htdocs\CultureDev\app\model\model.class.php';
 
+session_start();
 
 $db=new Database();
 if(isset($_POST['loginBtn'])){
@@ -9,11 +10,14 @@ if(isset($_POST['loginBtn'])){
     $passWord = md5($_POST["login-pwd"]);
     $param    = [$email,$passWord];
 
-    $nbRow = $db->numberRow("SELECT * FROM users WHERE email=? AND password=?",$param);
+    $nbRow  = $db->numberRow("SELECT * FROM users WHERE email=? AND password=?",$param);
     
     if($nbRow!=0){
-        $_SESSION["email"]=$email;
-        echo "<script>alert(\"done\")</script>";
+        $getrow = $db->getRow("SELECT * FROM users WHERE email=? AND password=?",$param);
+        
+        $_SESSION["fname"]   = $getrow['fname'];
+        $_SESSION["id_user"] = $getrow['id_user'];
+        header("location: pages/dashboard.php");
     }else{
         $erreurSignin="Invalid email or password";
     }
@@ -24,8 +28,6 @@ if(isset($_POST['signupBtn'])){
     $signupLname = $_POST["signup-lname"];
     $signupEmail = $_POST["signup-email"];
     $signupPwd   = md5($_POST["signup-pwd"]);
-
-    // $param = [$signupFname, $signupLname, $signupEmail, $signupPwd];
 
     $nbRowEmail=$db->numberRow("SELECT * FROM users WHERE email=?", [$signupEmail]);
     if($nbRowEmail != 0){
