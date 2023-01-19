@@ -61,19 +61,24 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
                             <?php echo $categorie["id_cat"] ?>
                         </td>
                         <td>
-                            <?php echo $categorie["nom_cat"] ?>
+                            <input type="text" class="nom_cat_input hide" name="nom_cat" id="<?php echo $categorie["id_cat"]?>" value="<?php echo $categorie["nom_cat"] ?>" readonly>
+                            <?php echo $categorie["nom_cat"]?>
                         </td>
                         <td>
                             <div class="d-flex action-button">                                
                                 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
                                     <?php
-                                    echo "<a href=\"dashboard.php?suppCat=".$categorie["id_cat"]."\" id=\"deleteclick".$categorie["id_cat"]."\" hidden></a>
-                                    <button  onclick=\"confirmSupp(".$categorie["id_cat"].")\" class=\"btn btn-sm rounded-pill\"><i class=\"fas fa-trash-alt text-secondary\"></i></a></td></tr>";
+                                    echo "<a class=\"btn btn-xs light px-2\" onclick=\"updateButtonPost(".$categorie["id_cat"].")\"><i class=\"fa-regular fa-pen-to-square text-dark\"></i>
+                                        </a>
+                                    <a href=\"dashboard.php?suppCat=".$categorie["id_cat"]."\" id=\"deleteclick".$categorie["id_cat"]."\" hidden></a>
+                                        <button  onclick=\"confirmSupp(".$categorie["id_cat"].")\" class=\"btn btn-sm rounded-pill\"><i class=\"fas fa-trash-alt text-dark\"></i>
+                                    </a>
+                                    ";
                                     ?>
                                 </form>
                             </div>
                         </td> 
-                </tr>  
+                    </tr>
 	<?php
 		}
 	?> 
@@ -90,8 +95,10 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="assets/js/script.js"></script>
     <script>
+    
+    // document.querySelector("#nom_cat_input").removeAttribute("readonly");
+
     // confirmer la suppression
     function confirmSupp($id){
         if(confirm("voulez vous vraiment supprimer ?"))
@@ -102,6 +109,25 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
     $(document).ready( function () {
         $('#myTable').DataTable();
     } );
+
+    function updateButtonPost(id){
+        console.log(id)
+        let elm = document.getElementById(id);
+        console.log(elm.value)
+        elm.classList.add("hide");
+        document.querySelector(".nom_cat_input").removeAttribute("readonly");
+        document.querySelector(".nom_cat_input").classList.remove("hide");
+        // document.querySelector(".nom_cat_input").class("readonly");
+    }
+
+
+
+
+
+
+    // insout. blur => {
+    //     update Ajax
+    // }
 </script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <?php
 include_once 'C:\xampp\htdocs\CultureDev\app\controller\users.php';
-include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
-// echo $_SESSION['id_user']." - ".$_SESSION['fname']; 
+include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -29,50 +29,130 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
         </div>
 
         <div class="container p-4 main ">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center mb-3">
                 <h3 class="text-dark">Liste des postes</h3>
-                <button type="submit" name="addCat" class="btn btn-dark btn-sm">Ajouter un poste</button>
+                <button class="btn rounded-pill btn-dark btn-sm" id="add-post" data-bs-toggle="modal" data-bs-target="#modal-post">
+                    <i class="fa fa-plus"></i> Ajouter un post
+                </button>
             </div>
             <table class="table mt-5" id="myTable">
                 <thead class="table-dark">
-                    <th scope="col">ID Post</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Image</th>
                     <th scope="col">Titre</th>
                     <th scope="col">Description</th>
+                    <th scope="col">Categories</th>
+                    <th scope="col">Operation</th>
                 </thead>
                 <tbody>
             <?php
-                $sql        = "SELECT * from categories";
-                $categories = $db->getAllrows($sql);
-                foreach($categories as $categorie){								
+                // $sql        = "SELECT * from posts p, caegories c where p.id_cat = c.id_cat and p.id_user = ".$_SESSION['id_user'];
+                $sql   = "SELECT * from posts p, categories c where p.id_cat = c.id_cat";
+                $posts = $db->getAllrows($sql);
+
+                foreach($posts as $post){								
             ?>
-                        <tr>
+                    <tr>
                         <td>
-                            <?php echo $categorie["id_cat"] ?>
+                            <?php echo $post["id_post"] ?>
                         </td>
                         <td>
-                            <?php echo $categorie["nom_cat"] ?>
+                            <?php echo $post["image"] ?>
+                        </td>
+                        <td>
+                            <?php echo $post["title"] ?>
+                        </td>
+                        <td>
+                            <?php echo $post["description"] ?>
+                        </td>
+                        <td>
+                            <?php echo $post["nom_cat"] ?>
                         </td>
                         <td>
                             <div class="d-flex action-button">                                
                                 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
                                     <?php
-                                    echo "<a href=\"dashboard.php?suppCat=".$categorie["id_cat"]."\" id=\"deleteclick".$categorie["id_cat"]."\" hidden></a>
-                                    <button  onclick=\"confirmSupp(".$categorie["id_cat"].")\" class=\"btn btn-sm rounded-pill\"><i class=\"fas fa-trash-alt text-secondary\"></i></a></td></tr>";
+                                    echo "<a class=\"btn btn-xs px-2\" data-bs-toggle=\"modal\" data-bs-target=\"#modal-post\" 
+                                    onclick=\"updateButton()\"><i class=\"fa-regular fa-pen-to-square\"></i>
+                                    </a>
+                                    <a href=\"dashboard.php?suppPost=".$post["id_post"]."\" id=\"deleteclick".$post["id_post"]."\" hidden></a>
+                                    <button  onclick=\"confirmSupp(".$post["id_post"].")\" class=\"btn btn-sm rounded-pill\"><i class=\"fas fa-trash-alt text-secondary\"></i></a></td></tr>";
                                     ?>
                                 </form>
                             </div>
                         </td> 
                 </tr>  
-	<?php
-		}
-	?> 
+                    <?php
+                        }
+                    ?> 
                 </tbody>
             </table>
         </div>
-
-
     </div>
 
+
+
+<!-- MATCHE MODAL -->
+<div class="modal fade" id="modal-post">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" id="form-post"  enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h5 id="modalTitle">Add post</h5>
+                    <a href="#" class="btn-close" data-bs-dismiss="modal"></a>
+                </div>
+                <div class="modal-body">
+                    <!-- This Input Allows Storing post Index  -->
+                    <input type="hidden" name="post-id" id="post-id">
+                    <div class="mb-3">
+                        <label class="form-label">Nom de l'equipe 1</label>
+                        <select class="form-select" name="post-equipe1">
+                            <option value="">choisir l'equipe 1</option>
+                                <?php
+                                    // $sql="SELECT * FROM equipe";
+                                    // $equipelist = $db->getAllrows($sql);
+                                    // foreach($equipelist as $e_list){ 
+                                    //         echo "<option class=\"text-secondary fw-light\"  value=". $e_list['id_equipe'] ." id=".$e_list['id_equipe'].">".$e_list['nom_equipe']."</option>";
+                                    // }
+                                ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Date & heure</label>
+                        <input type="datetime-local" class="form-control" id="post-date" name="post-date" required/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Categories</label>
+                        <select class="form-select" id="post-stade" name="post-stade">
+                            <option value="">choisir un stade</option>
+                                <?php
+                                    $sql        = "SELECT * FROM categories";
+                                    $categories = $db->getAllrows($sql);
+                                    foreach($categories as $categorie){ 
+                                        echo "<option class=\"text-secondary fw-light\" value=". $categorie['id_cat'] ." id=".$categorie['id_cat'].">".$categorie['nom_cat']."</option>";
+                                    }
+                                ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Prix</label>
+                        <input type="number" min="0" step="0.01" placeholder="$" class="form-control" id="post-prix" name="post-prix" required/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-dark">Image</label>
+                        <input type="file" class="form-control" id="image" name="image" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-white" data-bs-dismiss="modal">Cancel</a>
+                    <button type="submit" name="updatePost" class="btn btn-warning task-action-btn" id="btnUpdate">Update</button>
+                    <button type="submit" name="savePost" 	class="btn btn-primary task-action-btn" id="btnSave">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- </div> -->
 
 
 <!-- scripts -->
@@ -81,6 +161,7 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="assets/js/script.js"></script>
     <script>
+        
     // confirmer la suppression
     function confirmSupp($id){
         if(confirm("voulez vous vraiment supprimer ?"))
@@ -91,6 +172,7 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
     $(document).ready( function () {
         $('#myTable').DataTable();
     } );
+    
 </script>
 </body>
 </html>
