@@ -41,3 +41,9 @@ if(isset($_POST['signupBtn'])){
         }
     }
 }
+
+if(isset($_GET['suppUser'])){
+    $dbMatch = new Database();
+    $sql="DELETE from users where id_user= ?";
+    $dbMatch->deleteData($sql, [$_GET['suppUser']]);
+}
