@@ -47,6 +47,7 @@ body{
 }
 .form-text{
     color: crimson;
+    font-size: 12px;
 }
 .click-ici{
     font-weight: bold;
@@ -55,6 +56,9 @@ body{
 }
 .hide{
     display: none;
+}
+.hiden{
+    visibility: hidden;
 }
 .eye{
     position: absolute;

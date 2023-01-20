@@ -26,28 +26,28 @@
                 <!-- signup -->
                 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" class="sign-up w-100" autocomplete="off">
                     <h2>Sign up</h2>
-                    <div class="mt-3 mb-2">
+                    <div class="mt-5 mb-4">
                         <input type="text" class="form-control" id="input-fname" name="signup-fname" required>
                         <label class="form-label">First name</label>
-                        <div id="fname-error" class="form-text hide" >first name invalide</div>
+                        <div id="fname-error" class="form-text hiden" >first name invalide</div>
                     </div>
-                    <div class="mt-5 mb-3 mt-2">
+                    <div class="mb-4 mt-3">
                         <input type="text" class="form-control" id="input-lname" name="signup-lname" required>
                         <label class="form-label">Last name</label>
-                        <div id="lname-error" class="form-text hide">last name invalide</div>
+                        <div id="lname-error" class="form-text hiden">last name invalide</div>
                     </div>
-                    <div class="mt-5 mb-3">
+                    <div class="mt-3 mb-4">
                         <input type="text" class="form-control" id="input-email" name="signup-email" required>
                         <label class="form-label">Email address</label>
-                        <div id="email-error" class="form-text hide">Email invalide</div>
+                        <div id="email-error" class="form-text hiden">Email invalide</div>
                     </div>
-                    <div class="mt-5 mb-3 position-relative">
+                    <div class="mt-3 mb-4 position-relative">
                         <i class="fa-solid fa-eye eye eye-on"></i>
                         <i class="fa-solid fa-eye-slash eye eye-off hide"></i>
                         
                         <input type="password" class="form-control" id="input-pwd" name="signup-pwd" required>
                         <label class="form-label">Password</label>
-                        <div id="pwd-error" class="form-text hide">Password invalide</div>
+                        <div id="pwd-error" class="form-text hiden">Password invalide</div>
                     </div>
                     <button type="submit" name="signupBtn" id="sinscrire" class="btn btn-primary mt-4 mb-3">S'inscrire</button>
                     <div class="mt-2">
@@ -60,7 +60,7 @@
                     <div class="mt-5 mb-3">
                         <input type="text" class="form-control" id="input-email1" name="login-email" required>
                         <label class="form-label">Email address</label>
-                        <div id="email1-error" class="form-text hide">Email invalide</div>
+                        <div id="email1-error" class="form-text hiden">Email invalide</div>
                     </div>
                     <div class="mt-5 mb-4 position-relative">
                         <i class="fa-solid fa-eye eye eye-on"></i>
@@ -68,7 +68,7 @@
                         
                         <input type="password" class="form-control" id="input-pwd1"  name="login-pwd" required="required">
                         <label class="form-label">Password</label>
-                        <div id="pwd1-error" class="form-text hide">Password invalide</div>
+                        <div id="pwd1-error" class="form-text hiden">Password invalide</div>
                     </div>
                     <button type="submit" name="loginBtn" id="connecter" class="btn btn-primary mt-5">Se connecter</button>
                     <div class="mt-5">

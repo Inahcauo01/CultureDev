@@ -61,21 +61,19 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
                             <?php echo $categorie["id_cat"] ?>
                         </td>
                         <td>
-                            <input type="text" class="nom_cat_input hide" name="nom_cat" id="<?php echo $categorie["id_cat"]?>" value="<?php echo $categorie["nom_cat"] ?>" readonly>
-                            <?php echo $categorie["nom_cat"]?>
+                            <input type="text" class="<?php echo 'nci nom_cat_input'.$categorie["id_cat"].' hide'; ?>" name="nom_cat" id="<?php echo $categorie["id_cat"]?>" value="<?php echo $categorie["nom_cat"] ?>">
+                            <span  class="<?php echo 'nom_cat_text'.$categorie["id_cat"]; ?>"><?php echo $categorie["nom_cat"]?></span>
                         </td>
                         <td>
-                            <div class="d-flex action-button">                                
-                                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+                            <div class="d-flex action-button">
                                     <?php
                                     echo "<a class=\"btn btn-xs light px-2\" onclick=\"updateButtonPost(".$categorie["id_cat"].")\"><i class=\"fa-regular fa-pen-to-square text-dark\"></i>
                                         </a>
-                                    <a href=\"dashboard.php?suppCat=".$categorie["id_cat"]."\" id=\"deleteclick".$categorie["id_cat"]."\" hidden></a>
+                                    <a href=\"categories.php?suppCat=".$categorie["id_cat"]."\" id=\"deleteclick".$categorie["id_cat"]."\" hidden></a>
                                         <button  onclick=\"confirmSupp(".$categorie["id_cat"].")\" class=\"btn btn-sm rounded-pill\"><i class=\"fas fa-trash-alt text-dark\"></i>
-                                    </a>
+                                        </button>
                                     ";
                                     ?>
-                                </form>
                             </div>
                         </td> 
                     </tr>
@@ -97,12 +95,13 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script>
     
-    // document.querySelector("#nom_cat_input").removeAttribute("readonly");
-
     // confirmer la suppression
-    function confirmSupp($id){
-        if(confirm("voulez vous vraiment supprimer ?"))
-        document.getElementById("deleteclick"+$id).click();
+    function confirmSupp(id){
+        console.log("hi"+id)
+        console.log(document.getElementById("deleteclick"+id))
+        if(confirm("voulez vous vraiment supprimer ?")){
+        document.getElementById("deleteclick"+id).click();
+        }
     };
 
     // Datatable
@@ -112,22 +111,35 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
 
     function updateButtonPost(id){
         console.log(id)
+        console.log(document.querySelector(".nom_cat_input"+id))
         let elm = document.getElementById(id);
         console.log(elm.value)
         elm.classList.add("hide");
-        document.querySelector(".nom_cat_input").removeAttribute("readonly");
-        document.querySelector(".nom_cat_input").classList.remove("hide");
-        // document.querySelector(".nom_cat_input").class("readonly");
+        document.querySelector(".nom_cat_text"+id).classList.add("hide");
+        document.querySelector(".nom_cat_input"+id).classList.remove("hide");
     }
 
+    document.querySelectorAll(".nci").forEach(elm=>{
+        elm.addEventListener("blur",()=>{
+            console.log(elm.id+" "+elm.value)
+            document.querySelector(".nom_cat_text"+elm.id).classList.remove("hide");
+            document.querySelector(".nom_cat_input"+elm.id).classList.add("hide");
+            updateCategories(elm.id,elm.value);
+        })
+    })
 
+// Updating data using Ajax
+function updateCategories(id, nomCat){
+    $.ajax({
+        url: "categories.php",
+        type: "POST",
+        data: { idCat: id, nomCat: nomCat },
+        success: function(response) {
+            console.log("la modification a bien été effectuée !");
+        }
+    });
+}
 
-
-
-
-    // insout. blur => {
-    //     update Ajax
-    // }
 </script>
 </body>
 </html>

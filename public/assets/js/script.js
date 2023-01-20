@@ -80,20 +80,20 @@ pwdSign1.addEventListener('blur', validatepassword1);
 function validateName() {
     const re = /^[a-zA-Z]{2,12}$/;
     if(!re.test(fName.value)) {
-        errorfname.classList.remove("hide")
+        errorfname.classList.remove("hiden")
         verified=false;
     } else {
-        errorfname.classList.add("hide")
+        errorfname.classList.add("hiden")
         verified=true;
     }
 }
 function validatelName(){
     const re = /^[a-zA-Z]{2,12}$/;
     if(!re.test(lName.value)) {
-        errorlname.classList.remove("hide")
+        errorlname.classList.remove("hiden")
         verified=false;
     } else {
-        errorlname.classList.add("hide")
+        errorlname.classList.add("hiden")
         verified=true;
     }
 }
@@ -101,10 +101,10 @@ function validateEmail() {
     const re = /^([a-zA-Z0-9_\.\-]+)@([a-zA-Z0-9_\.\-]+)\.([a-zA-Z]{2,5})$/;
 
     if(!re.test(emailSign.value)) {
-        erroremail.classList.remove('hide');
+        erroremail.classList.remove('hiden');
         verified=false;
     } else {
-        erroremail.classList.add('hide');
+        erroremail.classList.add('hiden');
         verified=true;
     }
 }
@@ -113,10 +113,10 @@ function validatepassword() {
     const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     if(!re.test(pwdSign.value)) {
-        errorpwd.classList.remove('hide');
+        errorpwd.classList.remove('hiden');
         verified=false;
     } else {
-        errorpwd.classList.add('hide');
+        errorpwd.classList.add('hiden');
         verified=true;
     }
 }
@@ -125,10 +125,10 @@ function validateEmail1() {
     const re = /^([a-zA-Z0-9_\.\-]+)@([a-zA-Z0-9_\.\-]+)\.([a-zA-Z]{2,5})$/;
 
     if(!re.test(emailSign1.value)) {
-        erroremail1.classList.remove('hide');
+        erroremail1.classList.remove('hiden');
         verified=false;
     } else {
-        erroremail1.classList.add('hide');
+        erroremail1.classList.add('hiden');
         verified=true;
     }
 }
@@ -136,10 +136,10 @@ function validatepassword1() {
     const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     if(!re.test(pwdSign1.value)) {
-        errorpwd1.classList.remove('hide');
+        errorpwd1.classList.remove('hiden');
         verified=false;
     } else {
-        errorpwd1.classList.add('hide');
+        errorpwd1.classList.add('hiden');
         verified=true;
     }
 }

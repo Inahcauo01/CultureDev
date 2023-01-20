@@ -22,9 +22,9 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
             <h2>Dashborad</h2>
             <?php if(isset($_SESSION['fname']))  echo "<h4>".$_SESSION['fname']."</h4>";  ?>
             <a href="#" class="active"><i class="fa-solid fa-house"></i><span class="text-side"> Accuil</span></a>
-            <a href="#"><i class="fa-solid fa-newspaper"></i><span class="text-side"> Postes</span></a>
+            <a href="posts.php"><i class="fa-solid fa-newspaper"></i><span class="text-side"> Postes</span></a>
             <a href="categories.php"><i class="fa-solid fa-layer-group"></i><span class="text-side"> Categories</span></a>
-            <a href="#"><i class="fa-solid fa-users"></i><span class="text-side"> Users</span></a>
+            <a href="utilisateurs.php"><i class="fa-solid fa-users"></i><span class="text-side"> Users</span></a>
             <a href="#" class="deconnecter"><i class="fa-solid fa-right-from-bracket"></i><span class="text-side"> Deconnecter</span></a>
         </div>
 
@@ -41,12 +41,16 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="assets/js/script.js"></script>
+    <!-- <script src="assets/js/script.js"></script> -->
     <script>
     // confirmer la suppression
     function confirmSupp($id){
-        if(confirm("voulez vous vraiment supprimer ?"))
-        document.getElementById("deleteclick"+$id).click();
+        console.log(id)
+        if(confirm("voulez vous vraiment supprimer ?")){
+            console.log("hi delete")
+            document.getElementById("deleteclick"+$id).click();
+            console.log("hi delete")
+        }
     };
 
     // Datatable
