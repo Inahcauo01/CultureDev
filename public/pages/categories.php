@@ -33,18 +33,27 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
                 <div class="">
                 <h3 class="text-dark">Categories</h3>
                 <!-- Insertion d'un nouvelle categorie -->
-                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="d-flex justify-content-between align-items-center">     
+                <div class="d-flex justify-content-between align-items-center">
                     <label class="text-dark">Ajouter une nouvelle categorie</label>
                     <div class="form-group m-1">
-                        <input type="text" class="form-control" name="nom_cat" placeholder="categorie" required>
+                        <input type="text" class="form-control" name="nom_cat" id="nom_cat_input" placeholder="categorie" required>
                     </div>
                     <div>
-                        <button type="submit" name="addCat" class="btn btn-outline-dark">Ajouter</button>
+                        <button name="addCat" class="btn btn-outline-dark" onclick="addCategories()">Ajouter</button>
                     </div>
-                </form>
                 </div>
             </div>
-            <table class="table mt-3" id="myTable">
+        </div>
+<?php   if(isset($_SESSION['msg'])){
+    echo $_SESSION['msg'];
+    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    '.$_SESSION['msg'].'
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>';
+  unset($_SESSION['msg']);
+} ?>
+            <div id="table-container">
+                <table class="table mt-3" id="myTable">
                 <thead class="table-dark">
                     <th scope="col">ID categories</th>
                     <th scope="col">Nom categories</th>
@@ -69,7 +78,7 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
                                     <?php
                                     echo "<a class=\"btn btn-xs light px-2\" onclick=\"updateButtonPost(".$categorie["id_cat"].")\"><i class=\"fa-regular fa-pen-to-square text-dark\"></i>
                                         </a>
-                                    <a href=\"categories.php?suppCat=".$categorie["id_cat"]."\" id=\"deleteclick".$categorie["id_cat"]."\" hidden></a>
+                                    <a onclick=\"deleteCategories(".$categorie["id_cat"].")\" id=\"deleteclick".$categorie["id_cat"]."\" hidden></a>
                                         <button  onclick=\"confirmSupp(".$categorie["id_cat"].")\" class=\"btn btn-sm rounded-pill\"><i class=\"fas fa-trash-alt text-dark\"></i>
                                         </button>
                                     ";
@@ -77,14 +86,14 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
                             </div>
                         </td> 
                     </tr>
-	<?php
-		}
-	?> 
+        <?php
+            }
+        ?> 
                 </tbody>
             </table>
+            </div>
+        
         </div>
-
-
     </div>
 
 
@@ -104,29 +113,54 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
         }
     };
 
-    // Datatable
-    $(document).ready( function () {
-        $('#myTable').DataTable();
-    } );
+// Datatable
+$(document).ready( function () {
+    $('#myTable').DataTable();
+} );
 
-    function updateButtonPost(id){
-        console.log(id)
-        console.log(document.querySelector(".nom_cat_input"+id))
-        let elm = document.getElementById(id);
-        console.log(elm.value)
-        elm.classList.add("hide");
-        document.querySelector(".nom_cat_text"+id).classList.add("hide");
-        document.querySelector(".nom_cat_input"+id).classList.remove("hide");
-    }
-
+// Show/hide input in the table (Update)
+function updateButtonPost(id){
+    console.log(id)
+    console.log(document.querySelector(".nom_cat_input"+id))
+    let elm = document.getElementById(id);
+    console.log(elm.value)
+    elm.classList.add("hide");
+    document.querySelector(".nom_cat_text"+id).classList.add("hide");
+    document.querySelector(".nom_cat_input"+id).classList.remove("hide");
+    
+    // Update lorsque on sortie de l'input
     document.querySelectorAll(".nci").forEach(elm=>{
         elm.addEventListener("blur",()=>{
-            console.log(elm.id+" "+elm.value)
-            document.querySelector(".nom_cat_text"+elm.id).classList.remove("hide");
-            document.querySelector(".nom_cat_input"+elm.id).classList.add("hide");
-            updateCategories(elm.id,elm.value);
-        })
+        console.log(elm.id+" : "+elm.value)
+        document.querySelector(".nom_cat_text"+elm.id).classList.remove("hide");
+        document.querySelector(".nom_cat_input"+elm.id).classList.add("hide");
+        updateCategories(elm.id,elm.value);
     })
+})
+
+}
+
+// Adding data using Ajax
+function addCategories(){
+    let nomCat = document.querySelector("#nom_cat_input");
+    
+    if(nomCat.value != ""){
+    $.ajax({
+        url: "categories.php",
+        type: "POST",
+        data: { addCat : "addCat",
+            nomCat: nomCat.value },
+        success: function(response) {
+            console.log("l'ajout a bien été effectué !");
+            displayData();
+        },
+        error: function(xhr, status, error) {
+            console.log('Error:', error);
+        }
+    });
+    }
+    nomCat.value ='';
+}
 
 // Updating data using Ajax
 function updateCategories(id, nomCat){
@@ -136,8 +170,39 @@ function updateCategories(id, nomCat){
         data: { idCat: id, nomCat: nomCat },
         success: function(response) {
             console.log("la modification a bien été effectuée !");
+            displayData();
+        },
+        error: function(xhr, status, error) {
+            console.log('Error:', error);
         }
     });
+}
+
+// Deleting data using Ajax
+function deleteCategories(id){
+    $.ajax({
+        url: "categories.php",
+        type: "POST",
+        data: { suppCat : id },
+        success: function(response) {
+            console.log("la suppression a bien été effectuée !");
+            displayData();
+        },
+        error: function(xhr, status, error) {
+            console.log('Error:', error);
+        }
+    });
+}
+
+function displayData(){
+    $.ajax({
+    url: "http://localhost/CultureDev/app/view/getDataCat.php",
+    type: "POST",
+    success: function(response) {
+        // insert the returned HTML into the table
+        $("#table-container").html(response);
+   }
+});
 }
 
 </script>

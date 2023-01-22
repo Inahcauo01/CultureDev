@@ -1,8 +1,6 @@
 <?php
 include_once 'C:\xampp\htdocs\CultureDev\app\model\model.class.php';
 
-session_start();
-
 $db=new Database();
 if(isset($_POST['loginBtn'])){
 
