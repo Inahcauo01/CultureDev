@@ -8,7 +8,6 @@ include_once 'C:\xampp\htdocs\CultureDev\app\model\model.class.php';
 
 
 if(isset($_POST['savePost'])){
-    
     $dbMatch = new Database();
     $sql="INSERT INTO categories(nom_cat) VALUES (?)";
     $nomCat = $_POST['nom_cat'];

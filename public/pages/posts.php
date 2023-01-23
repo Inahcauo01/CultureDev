@@ -14,6 +14,10 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../assets/style/style-dash.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Quill.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.snow.css" rel="stylesheet">
     <title>Dashborad</title>
 </head>
 <body>
@@ -63,7 +67,7 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
                             <?php echo $post["title"] ?>
                         </td>
                         <td>
-                            <?php echo $post["description"] ?>
+                            <span class="text-desc"><?php echo $post["description"] ?></span>
                         </td>
                         <td>
                             <?php echo $post["nom_cat"] ?>
@@ -81,7 +85,7 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
                                 </form>
                             </div>
                         </td> 
-                </tr>  
+                    </tr>  
                     <?php
                         }
                     ?> 
@@ -89,7 +93,6 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
             </table>
         </div>
     </div>
-
 
 
 <!-- MATCHE MODAL -->
@@ -105,21 +108,8 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
                     <!-- This Input Allows Storing post Index  -->
                     <input type="hidden" name="post-id" id="post-id">
                     <div class="mb-3">
-                        <label class="form-label">Nom de l'equipe 1</label>
-                        <select class="form-select" name="post-equipe1">
-                            <option value="">choisir l'equipe 1</option>
-                                <?php
-                                    // $sql="SELECT * FROM equipe";
-                                    // $equipelist = $db->getAllrows($sql);
-                                    // foreach($equipelist as $e_list){ 
-                                    //         echo "<option class=\"text-secondary fw-light\"  value=". $e_list['id_equipe'] ." id=".$e_list['id_equipe'].">".$e_list['nom_equipe']."</option>";
-                                    // }
-                                ?>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Date & heure</label>
-                        <input type="datetime-local" class="form-control" id="post-date" name="post-date" required/>
+                        <label class="form-label">Prix</label>
+                        <input type="text" class="form-control" id="post-prix" name="post-prix" required/>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Categories</label>
@@ -135,12 +125,11 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Prix</label>
-                        <input type="number" min="0" step="0.01" placeholder="$" class="form-control" id="post-prix" name="post-prix" required/>
-                    </div>
-                    <div class="mb-3">
                         <label class="form-label text-dark">Image</label>
                         <input type="file" class="form-control" id="image" name="image" />
+                    </div>
+                    <div class="mb-3">
+                        <textarea id="editor" class="w-100" rows="10"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -172,7 +161,12 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
     $(document).ready( function () {
         $('#myTable').DataTable();
     } );
-    
+
+    // editeur
+    var quill = new Quill('#editor', {
+        theme: 'snow'
+    });
+
 </script>
 </body>
 </html>
