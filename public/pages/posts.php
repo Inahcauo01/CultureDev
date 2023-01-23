@@ -1,5 +1,5 @@
 <?php
-include_once 'C:\xampp\htdocs\CultureDev\app\controller\users.php';
+// include_once 'C:\xampp\htdocs\CultureDev\app\controller\users.php';
 include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
 
 ?>
@@ -46,22 +46,26 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
                     <th scope="col">Titre</th>
                     <th scope="col">Description</th>
                     <th scope="col">Categories</th>
+                    <th scope="col">Date</th>
                     <th scope="col">Operation</th>
                 </thead>
                 <tbody>
             <?php
                 // $sql        = "SELECT * from posts p, caegories c where p.id_cat = c.id_cat and p.id_user = ".$_SESSION['id_user'];
+                $db = new Database();
                 $sql   = "SELECT * from posts p, categories c where p.id_cat = c.id_cat";
                 $posts = $db->getAllrows($sql);
 
-                foreach($posts as $post){								
+                foreach($posts as $post){	
+                    
+                $image = (!empty($post['image'])) ? '../assets/images/uploads/'.$post["image"] : '../assets/images/uploads/aucune.webp';							
             ?>
                     <tr>
                         <td>
                             <?php echo $post["id_post"] ?>
                         </td>
                         <td>
-                            <?php echo $post["image"] ?>
+                            <?php echo "<img src='".$image."' height='40px' width='56px'>" ?>
                         </td>
                         <td>
                             <?php echo $post["title"] ?>
@@ -73,11 +77,14 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
                             <?php echo $post["nom_cat"] ?>
                         </td>
                         <td>
+                            <?php echo $post["date_post"] ?>
+                        </td>
+                        <td>
                             <div class="d-flex action-button">                                
                                 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
                                     <?php
                                     echo "<a class=\"btn btn-xs px-2\" data-bs-toggle=\"modal\" data-bs-target=\"#modal-post\" 
-                                    onclick=\"updateButton()\"><i class=\"fa-regular fa-pen-to-square\"></i>
+                                    onclick=\"updateButton(".$post["id_post"].", '".$post["title"]."', '".$post["description"]."', ".$post["id_cat"].")\"><i class=\"fa-regular fa-pen-to-square\"></i>
                                     </a>
                                     <a href=\"dashboard.php?suppPost=".$post["id_post"]."\" id=\"deleteclick".$post["id_post"]."\" hidden></a>
                                     <button  onclick=\"confirmSupp(".$post["id_post"].")\" class=\"btn btn-sm rounded-pill\"><i class=\"fas fa-trash-alt text-secondary\"></i></a></td></tr>";
@@ -95,7 +102,7 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
     </div>
 
 
-<!-- MATCHE MODAL -->
+<!-- POST MODAL -->
 <div class="modal fade" id="modal-post">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -108,13 +115,13 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
                     <!-- This Input Allows Storing post Index  -->
                     <input type="hidden" name="post-id" id="post-id">
                     <div class="mb-3">
-                        <label class="form-label">Prix</label>
-                        <input type="text" class="form-control" id="post-prix" name="post-prix" required/>
+                        <label class="form-label">Title</label>
+                        <input type="text" class="form-control" id="post-title" name="post-title" required/>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Categories</label>
-                        <select class="form-select" id="post-stade" name="post-stade">
-                            <option value="">choisir un stade</option>
+                        <select class="form-select" id="post-categorie" name="post-categorie">
+                            <option value="">choisir une categorie</option>
                                 <?php
                                     $sql        = "SELECT * FROM categories";
                                     $categories = $db->getAllrows($sql);
@@ -129,7 +136,8 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
                         <input type="file" class="form-control" id="image" name="image" />
                     </div>
                     <div class="mb-3">
-                        <textarea id="editor" class="w-100" rows="10"></textarea>
+                        <label class="form-label text-dark">Description</label>
+                        <textarea id="editor" class="w-100" rows="10" name="post-description"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -141,14 +149,12 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
         </div>
     </div>
 </div>
-<!-- </div> -->
 
 
 <!-- scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="assets/js/script.js"></script>
     <script>
         
     // confirmer la suppression
@@ -167,6 +173,26 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
         theme: 'snow'
     });
 
+
+	// vider les champs lorsqu'on click sur ajouter jeu
+	document.getElementById('add-post').addEventListener('click', ()=>{
+			document.getElementById('form-post').reset();
+			document.getElementById('btnSave').style.display   = 'block';
+			document.getElementById('btnUpdate').style.display = 'none';
+	});
+
+	function updateButton(id, title, description, id_cat){
+		document.getElementById("modalTitle").innerHTML   = "Edit post";
+		document.getElementById('btnSave').style.display  = 'none';
+		document.getElementById('btnUpdate').style.display= 'block';
+
+		document.getElementById("post-id").value           = id;
+		document.getElementById("post-title").value        = title;
+		document.getElementById("editor").value     	   = description;
+        
+		document.getElementById(id_cat).selected = true;
+
+	}
 </script>
 </body>
 </html>
