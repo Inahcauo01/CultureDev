@@ -27,7 +27,7 @@ $categories = $db->getAllrows($sql);
     <div class="d-flex action-button">
     <a class="btn btn-xs light px-2" onclick="updateButtonPost('.$categorie["id_cat"].')"><i class="fa-regular fa-pen-to-square text-dark"></i>
     </a>
-    <a href="categories.php?suppCat='.$categorie["id_cat"].'" id="deleteclick'.$categorie["id_cat"].'" hidden></a>
+    <button onclick="deleteCategories('.$categorie["id_cat"].')" id="deleteclick'.$categorie["id_cat"].'" hidden></button>
     <button  onclick="confirmSupp('.$categorie["id_cat"].')" class="btn btn-sm rounded-pill"><i class="fas fa-trash-alt text-dark"></i>
     </button>
     </div>

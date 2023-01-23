@@ -15,9 +15,9 @@ if(isset($_POST['addCat'])){
     }
 }
 
-if(isset($_POST['suppCat'])){
+if(isset($_POST['supIdCat'])){
     $sql="DELETE from categories where id_cat= ?";
-    $db->deleteData($sql, [$_POST['suppCat']]);
+    $db->deleteData($sql, [$_POST['supIdCat']]);
 }
 
 if(isset($_POST["idCat"])){

@@ -36,7 +36,7 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
                 <div class="d-flex justify-content-between align-items-center">
                     <label class="text-dark">Ajouter une nouvelle categorie</label>
                     <div class="form-group m-1">
-                        <input type="text" class="form-control" name="nom_cat" id="nom_cat_input" placeholder="categorie" required>
+                        <input type="text" class="form-control" name="nom_cat" id="nom_cat_input" placeholder="categorie">
                     </div>
                     <div>
                         <button name="addCat" class="btn btn-outline-dark" onclick="addCategories()">Ajouter</button>
@@ -60,12 +60,12 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
                     <th scope="col">Opertaion</th>
                 </thead>
                 <tbody>
-            <?php
-                $sql        = "SELECT * from categories";
-                $categories = $db->getAllrows($sql);
-                foreach($categories as $categorie){								
-            ?>
-                        <tr>
+                    <?php
+                        $sql        = "SELECT * from categories";
+                        $categories = $db->getAllrows($sql);
+                        foreach($categories as $categorie){								
+                    ?>
+                    <tr>
                         <td>
                             <?php echo $categorie["id_cat"] ?>
                         </td>
@@ -78,17 +78,17 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
                                     <?php
                                     echo "<a class=\"btn btn-xs light px-2\" onclick=\"updateButtonPost(".$categorie["id_cat"].")\"><i class=\"fa-regular fa-pen-to-square text-dark\"></i>
                                         </a>
-                                    <a onclick=\"deleteCategories(".$categorie["id_cat"].")\" id=\"deleteclick".$categorie["id_cat"]."\" hidden></a>
-                                        <button  onclick=\"confirmSupp(".$categorie["id_cat"].")\" class=\"btn btn-sm rounded-pill\"><i class=\"fas fa-trash-alt text-dark\"></i>
-                                        </button>
+                                    <button onclick=\"deleteCategories(".$categorie["id_cat"].")\" id=\"deleteclick".$categorie["id_cat"]."\" hidden></button>   
+                                    <button onclick=\"confirmSupp(".$categorie["id_cat"].")\" class=\"btn btn-sm rounded-pill\"><i class=\"fas fa-trash-alt text-dark\"></i>
+                                    </button>
                                     ";
                                     ?>
                             </div>
                         </td> 
                     </tr>
-        <?php
-            }
-        ?> 
+                    <?php
+                        }
+                    ?> 
                 </tbody>
             </table>
             </div>
@@ -106,11 +106,8 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
     
     // confirmer la suppression
     function confirmSupp(id){
-        console.log("hi"+id)
-        console.log(document.getElementById("deleteclick"+id))
-        if(confirm("voulez vous vraiment supprimer ?")){
-        document.getElementById("deleteclick"+id).click();
-        }
+        if(confirm("voulez vous vraiment supprimer ?"))
+            document.getElementById("deleteclick"+id).click();
     };
 
 // Datatable
@@ -120,10 +117,8 @@ $(document).ready( function () {
 
 // Show/hide input in the table (Update)
 function updateButtonPost(id){
-    console.log(id)
     console.log(document.querySelector(".nom_cat_input"+id))
     let elm = document.getElementById(id);
-    console.log(elm.value)
     elm.classList.add("hide");
     document.querySelector(".nom_cat_text"+id).classList.add("hide");
     document.querySelector(".nom_cat_input"+id).classList.remove("hide");
@@ -131,7 +126,6 @@ function updateButtonPost(id){
     // Update lorsque on sortie de l'input
     document.querySelectorAll(".nci").forEach(elm=>{
         elm.addEventListener("blur",()=>{
-        console.log(elm.id+" : "+elm.value)
         document.querySelector(".nom_cat_text"+elm.id).classList.remove("hide");
         document.querySelector(".nom_cat_input"+elm.id).classList.add("hide");
         updateCategories(elm.id,elm.value);
@@ -183,7 +177,7 @@ function deleteCategories(id){
     $.ajax({
         url: "categories.php",
         type: "POST",
-        data: { suppCat : id },
+        data: { supIdCat : id },
         success: function(response) {
             console.log("la suppression a bien été effectuée !");
             displayData();
