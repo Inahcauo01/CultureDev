@@ -86,7 +86,7 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
                                     echo "<a class=\"btn btn-xs px-2\" data-bs-toggle=\"modal\" data-bs-target=\"#modal-post\" 
                                     onclick=\"updateButton(".$post["id_post"].", '".$post["title"]."', '".$post["description"]."', ".$post["id_cat"].")\"><i class=\"fa-regular fa-pen-to-square\"></i>
                                     </a>
-                                    <a href=\"dashboard.php?suppPost=".$post["id_post"]."\" id=\"deleteclick".$post["id_post"]."\" hidden></a>
+                                    <a href=\"posts.php?suppPost=".$post["id_post"]."\" id=\"deleteclick".$post["id_post"]."\" hidden></a>
                                     <button  onclick=\"confirmSupp(".$post["id_post"].")\" class=\"btn btn-sm rounded-pill\"><i class=\"fas fa-trash-alt text-secondary\"></i></a></td></tr>";
                                     ?>
                                 </form>
@@ -159,7 +159,7 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
         
     // confirmer la suppression
     function confirmSupp($id){
-        if(confirm("voulez vous vraiment supprimer ?"))
+        if(confirm("voulez vous vraiment supprimer ce post?"))
         document.getElementById("deleteclick"+$id).click();
     };
 
@@ -191,8 +191,9 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
 		document.getElementById("editor").value     	   = description;
         
 		document.getElementById(id_cat).selected = true;
-
 	}
+
+    // 
 </script>
 </body>
 </html>

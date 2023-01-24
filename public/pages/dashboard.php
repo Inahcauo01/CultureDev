@@ -1,7 +1,7 @@
 <?php
 include_once 'C:\xampp\htdocs\CultureDev\app\controller\users.php';
 include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
-// echo $_SESSION['id_user']." - ".$_SESSION['fname']; 
+// echo $_SESSION['id_user']." - ".$_SESSION['fname'];
 ?>
 
 <!DOCTYPE html>
