@@ -65,7 +65,7 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
                             <?php echo $post["id_post"] ?>
                         </td>
                         <td>
-                            <?php echo "<img src='".$image."' height='40px' width='56px'>" ?>
+                            <?php echo "<img src='".$image."' class=\"img-table\">" ?>
                         </td>
                         <td>
                             <?php echo $post["title"] ?>
@@ -112,38 +112,48 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
                     <a href="#" class="btn-close" data-bs-dismiss="modal"></a>
                 </div>
                 <div class="modal-body">
-                    <!-- This Input Allows Storing post Index  -->
-                    <input type="hidden" name="post-id" id="post-id">
-                    <div class="mb-3">
-                        <label class="form-label">Title</label>
-                        <input type="text" class="form-control" id="post-title" name="post-title" required/>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Categories</label>
-                        <select class="form-select" id="post-categorie" name="post-categorie">
-                            <option value="">choisir une categorie</option>
-                                <?php
-                                    $sql        = "SELECT * FROM categories";
-                                    $categories = $db->getAllrows($sql);
-                                    foreach($categories as $categorie){ 
-                                        echo "<option class=\"text-secondary fw-light\" value=". $categorie['id_cat'] ." id=".$categorie['id_cat'].">".$categorie['nom_cat']."</option>";
-                                    }
-                                ?>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label text-dark">Image</label>
-                        <input type="file" class="form-control" id="image" name="image" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label text-dark">Description</label>
-                        <textarea id="editor" class="w-100" rows="10" name="post-description"></textarea>
+                    <div id="input-container">
+                        <!-- This Input Allows Storing post Index  -->
+                        <input type="hidden" name="post-id[]" id="post-id">
+                        <div class="mb-3">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-control" id="post-title" name="post-title[]" required/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Categories</label>
+                            <select class="form-select" id="post-categorie" name="post-categorie[]">
+                                <option value="">choisir une categorie</option>
+                                    <?php
+                                        $sql        = "SELECT * FROM categories";
+                                        $categories = $db->getAllrows($sql);
+                                        foreach($categories as $categorie){ 
+                                            echo "<option class=\"text-secondary fw-light\" value=". $categorie['id_cat'] ." id=".$categorie['id_cat'].">".$categorie['nom_cat']."</option>";
+                                        }
+                                    ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-dark">Image</label>
+                            <input type="file" class="form-control" id="image" name="image[]" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-dark">Description</label>
+                            <textarea id="editor" class="w-100" rows="10" name="post-description[]"></textarea>
+                        </div>
+                        <hr>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <a href="#" class="btn btn-white" data-bs-dismiss="modal">Cancel</a>
-                    <button type="submit" name="updatePost" class="btn btn-warning task-action-btn" id="btnUpdate">Update</button>
-                    <button type="submit" name="savePost" 	class="btn btn-primary task-action-btn" id="btnSave">Save</button>
+                <div class="modal-footer d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center hiden" id="add-del-form">
+                        <button type="button" class="btn btn-secondary btn-sm me-1 hide"id="remove-form-btn" ><i class="fa-solid fa-minus text-white"></i></button>
+                        <button type="button" class="btn btn-secondary btn-sm" id="add-form-btn"><i class="fa-solid fa-plus text-white"></i></button>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <a href="#" class="btn btn-white" data-bs-dismiss="modal">Cancel</a>
+                        <button type="submit" name="updatePost" class="btn btn-warning task-action-btn" id="btnUpdate">Update</button>
+                        <button type="submit" name="savePost" 	class="btn btn-primary task-action-btn" id="btnSave">Save</button>
+                    </div>
+                    
                 </div>
             </form>
         </div>
@@ -177,23 +187,48 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
 	// vider les champs lorsqu'on click sur ajouter jeu
 	document.getElementById('add-post').addEventListener('click', ()=>{
 			document.getElementById('form-post').reset();
+		    document.getElementById("modalTitle").innerHTML    = "Add post";
 			document.getElementById('btnSave').style.display   = 'block';
 			document.getElementById('btnUpdate').style.display = 'none';
+			document.getElementById('add-del-form').classList.remove("hiden");
 	});
 
 	function updateButton(id, title, description, id_cat){
-		document.getElementById("modalTitle").innerHTML   = "Edit post";
-		document.getElementById('btnSave').style.display  = 'none';
-		document.getElementById('btnUpdate').style.display= 'block';
+		document.getElementById("modalTitle").innerHTML     = "Edit post";
+		document.getElementById('btnSave').style.display    = 'none';
+		document.getElementById('btnUpdate').style.display  = 'block';
+			document.getElementById('add-del-form').classList.add("hiden");
 
-		document.getElementById("post-id").value           = id;
-		document.getElementById("post-title").value        = title;
-		document.getElementById("editor").value     	   = description;
-        
-		document.getElementById(id_cat).selected = true;
+
+		document.getElementById("post-id").value    = id;
+		document.getElementById("post-title").value = title;
+		document.getElementById("editor").value     = description;
+    
+		document.getElementById(id_cat).selected    = true;
 	}
 
-    // 
+    // adding multiple form
+document.getElementById("add-form-btn").addEventListener("click", ()=>{
+    var formContainer = document.querySelector(".modal-body");
+    var newForm       = document.querySelector("#input-container").cloneNode(true);
+    // newForm.reset();
+    formContainer.appendChild(newForm);
+    if(formContainer.childNodes.length >3){
+        document.querySelector("#remove-form-btn").classList.remove("hide")
+    }
+});
+    // removing form
+document.getElementById("remove-form-btn").addEventListener("click", ()=>{
+    var formContainer = document.querySelector(".modal-body");
+    var newForm       = document.querySelector("#input-container");
+    if(formContainer.childNodes.length > 3){
+        formContainer.removeChild(formContainer.lastChild);
+    }
+    if(formContainer.childNodes.length < 4){
+        document.querySelector("#remove-form-btn").classList.add("hide")
+    }
+});
+
 </script>
 </body>
 </html>
