@@ -45,3 +45,7 @@ if(isset($_GET['suppUser'])){
     $sql="DELETE from users where id_user= ?";
     $dbMatch->deleteData($sql, [$_GET['suppUser']]);
 }
+
+if(isset($_POST['logout'])){
+    session_destroy();
+}

@@ -1,6 +1,7 @@
 <?php
 include_once 'C:\xampp\htdocs\CultureDev\app\controller\users.php';
 include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
+if(!isset($_SESSION['id_user']))    header("Location: ../index.php");
 // echo $_SESSION['id_user']." - ".$_SESSION['fname']; 
 ?>
 
@@ -20,11 +21,11 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
     <div class="dash-container">
         <div class="d-flex flex-column sidebar bg-dark text-white">
             <h2>Dashborad</h2>
-            <?php if(isset($_SESSION['fname']))  echo "<h4>".$_SESSION['fname']."</h4>";  ?>
             <a href="dashboard.php"><i class="fa-solid fa-house"></i><span class="text-side"> Accuil</span></a>
             <a href="posts.php"><i class="fa-solid fa-newspaper"></i><span class="text-side"> Postes</span></a>
             <a href="categories.php" class="active"><i class="fa-solid fa-layer-group"></i><span class="text-side"> Categories</span></a>
             <a href="utilisateurs.php"><i class="fa-solid fa-users"></i><span class="text-side"> Users</span></a>
+            <a href="allposts.php" class="links"><i class="fa-solid fa-users"></i><span class="text-side"> All posts</span></a>
             <a href="#" class="deconnecter"><i class="fa-solid fa-right-from-bracket"></i><span class="text-side"> Deconnecter</span></a>
         </div>
 

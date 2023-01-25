@@ -1,7 +1,6 @@
 <?php
 include_once 'C:\xampp\htdocs\CultureDev\app\controller\users.php';
-include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
-// echo $_SESSION['id_user']." - ".$_SESSION['fname'];
+if(!isset($_SESSION['id_user']))    header("Location: ../index.php");
 ?>
 
 <!DOCTYPE html>
@@ -17,23 +16,54 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
     <title>Dashborad</title>
 </head>
 <body>
-    <div class="dash-container">
-        <div class="d-flex flex-column sidebar bg-dark text-white">
-            <h2>Dashborad</h2>
-            <?php if(isset($_SESSION['fname']))  echo "<h4>".$_SESSION['fname']."</h4>";  ?>
-            <a href="#" class="active"><i class="fa-solid fa-house"></i><span class="text-side"> Accuil</span></a>
-            <a href="posts.php"><i class="fa-solid fa-newspaper"></i><span class="text-side"> Postes</span></a>
-            <a href="categories.php"><i class="fa-solid fa-layer-group"></i><span class="text-side"> Categories</span></a>
-            <a href="utilisateurs.php"><i class="fa-solid fa-users"></i><span class="text-side"> Users</span></a>
-            <a href="#" class="deconnecter"><i class="fa-solid fa-right-from-bracket"></i><span class="text-side"> Deconnecter</span></a>
-        </div>
-
-        <div class="container p-4 main">
-            
-        </div>
-
-
+<div class="dash-container">
+    <div class="d-flex flex-column sidebar bg-dark text-white">
+        <h2>Dashborad</h2>
+        <a href="#" class="active"><i class="fa-solid fa-house"></i><span class="text-side"> Accuil</span></a>
+        <a href="posts.php"><i class="fa-solid fa-newspaper"></i><span class="text-side"> Postes</span></a>
+        <a href="categories.php"><i class="fa-solid fa-layer-group"></i><span class="text-side"> Categories</span></a>
+        <a href="utilisateurs.php"><i class="fa-solid fa-users"></i><span class="text-side"> Users</span></a>
+        <a href="allposts.php" class="links"><i class="fa-solid fa-users"></i><span class="text-side"> All posts</span></a>
+        <a href="#" class="deconnecter"><i class="fa-solid fa-right-from-bracket"></i><span class="text-side"> Deconnecter</span></a>
     </div>
+
+    <div class="container p-4 main">
+        <div class="d-flex justify-content-between flex-wrap">   
+
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Moyenne de post/user</h5>
+                    <div class=""><?php echo $db->totalRow("
+                        SELECT round(avg(nbr),2) FROM (select id_user, count(id_post) as nbr from posts GROUP BY id_user) as tab;
+                        "); 
+                    ?>
+                    </div>
+                </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Nombre de Posts</h5>
+                    <div class=""><?php echo $db->totalRow("SELECT * FROM posts"); ?></div>
+                </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Nombre de Categories</h5>
+                    <div class=""><?php echo $db->totalRow("SELECT * FROM categories"); ?></div>
+                </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Nombre des Utilisateurs</h5>
+                    <div class=""><?php echo $db->totalRow("SELECT * FROM users"); ?></div>
+                </div>
+            </div>
+
+        </div>    
+    </div>
+
+
+</div>
 
 
 
