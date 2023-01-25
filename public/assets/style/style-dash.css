@@ -1,3 +1,6 @@
+body{
+    background: whitesmoke;
+}
 .dash-container{
     display: grid;
     height: 100vh;
@@ -50,5 +53,32 @@
     text-overflow: ellipsis;
 }
 .img-table{
-    width: 50px;
+    width: 60px;
+    aspect-ratio: 3/2;
+    object-fit: contain;
+}
+.humberger ,.hide-bar{
+    display: none;
+    margin-right: 5px;
+}
+@media only screen and (max-width: 700px){
+    .dash-container{
+        display: block;
+    }
+    .sidebar{
+        width: 100%;
+    }
+    #myTable{
+        width: 100vw !important;
+    }
+    .deconnecter{
+        position: relative;
+        margin-top: 20px;
+    }
+    .humberger{
+        display:block;
+    }
+    .links{
+        display: none;
+    }
 }

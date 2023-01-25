@@ -23,13 +23,19 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
 <body>
     <div class="dash-container">
         <div class="d-flex flex-column sidebar bg-dark text-white">
-            <h2>Dashborad</h2>
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="text-side-title">Dashborad</h2>
+                <div>
+                    <i class="fa-solid fa-bars fa-2x humberger text-white"></i>
+                    <i class="fa-solid fa-x hide-bar text-white me-2"></i>
+                </div>
+            </div>
             <?php if(isset($_SESSION['fname']))  echo "<h4>".$_SESSION['fname']."</h4>";  ?>
-            <a href="dashboard.php"><i class="fa-solid fa-house"></i><span class="text-side"> Accuil</span></a>
-            <a href="posts.php" class="active"><i class="fa-solid fa-newspaper"></i><span class="text-side"> Postes</span></a>
-            <a href="categories.php"><i class="fa-solid fa-layer-group"></i><span class="text-side"> Categories</span></a>
-            <a href="utilisateurs.php"><i class="fa-solid fa-users"></i><span class="text-side"> Users</span></a>
-            <a href="#" class="deconnecter"><i class="fa-solid fa-right-from-bracket"></i><span class="text-side"> Deconnecter</span></a>
+            <a href="dashboard.php" class="links"><i class="fa-solid fa-house"></i><span class="text-side"> Accuil</span></a>
+            <a href="posts.php" class="active links"><i class="fa-solid fa-newspaper"></i><span class="text-side"> Postes</span></a>
+            <a href="categories.php" class="links"><i class="fa-solid fa-layer-group"></i><span class="text-side"> Categories</span></a>
+            <a href="utilisateurs.php" class="links"><i class="fa-solid fa-users"></i><span class="text-side"> Users</span></a>
+            <a href="#" class="deconnecter links"><i class="fa-solid fa-right-from-bracket"></i><span class="text-side"> Deconnecter</span></a>
         </div>
 
         <div class="container p-4 main ">
@@ -39,6 +45,7 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
                     <i class="fa fa-plus"></i> Ajouter un post
                 </button>
             </div>
+            <div class="table-responsive">
             <table class="table mt-5" id="myTable">
                 <thead class="table-dark">
                     <th scope="col">ID</th>
@@ -98,6 +105,7 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\posts.php';
                     ?> 
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 
@@ -228,6 +236,38 @@ document.getElementById("remove-form-btn").addEventListener("click", ()=>{
         document.querySelector("#remove-form-btn").classList.add("hide")
     }
 });
+
+// shownig bar humberger button
+document.querySelector(".humberger").addEventListener("click", ()=>{
+    document.querySelector(".hide-bar").style.display = "block";
+    document.querySelector(".humberger").style.display = "none";
+    document.querySelectorAll(".links").forEach(link => {
+        link.style.display="block";
+    });
+})
+// hiding bar X button
+document.querySelector(".hide-bar").addEventListener("click", ()=>{
+    document.querySelector(".humberger").style.display = "block";
+    document.querySelector(".hide-bar").style.display = "none";
+    document.querySelectorAll(".links").forEach(link => {
+        link.style.display="none";
+    });
+})
+// width responsive
+window.addEventListener('resize',()=>{
+    if(window.innerWidth > 700) {
+        document.querySelector(".hide-bar").style.display = "none";
+        document.querySelector(".humberger").style.display = "none";
+        document.querySelectorAll(".links").forEach(link => {
+            link.style.display="block";
+        });
+    }else{
+        document.querySelector(".humberger").style.display = "block";
+        document.querySelectorAll(".links").forEach(link => {
+            link.style.display="none";
+        });
+    }
+})
 
 </script>
 </body>

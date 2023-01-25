@@ -53,6 +53,7 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
   unset($_SESSION['msg']);
 } ?>
             <div id="table-container">
+            <div class="table-responsive">
                 <table class="table mt-3" id="myTable">
                 <thead class="table-dark">
                     <th scope="col">ID categories</th>
@@ -91,6 +92,7 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\categories.php';
                     ?> 
                 </tbody>
             </table>
+            </div>
             </div>
         
         </div>

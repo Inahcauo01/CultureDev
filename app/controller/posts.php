@@ -67,21 +67,17 @@ if(isset($_POST['updatePost'])){
     
     try {
         if(!empty($filename)){
-            if($_FILES['image']['error'] == 0){
                 $ext = pathinfo($filename, PATHINFO_EXTENSION);
                 $new_filename = time().'.'.$ext;
-                move_uploaded_file($_FILES['image']['tmp_name'], '../assets/images/uploads/'.$new_filename);
+                move_uploaded_file($_FILES['image']['tmp_name'][0], '../assets/images/uploads/'.$new_filename);
                 $sql = 'UPDATE posts set title= ?, description= ?, id_cat= ?, image = ? WHERE id_post= ?';
                 $db->updateData($sql , [$title, $description, $id_cat, $new_filename, $id_post]);
-            }else{
-                throw new Exception('Error uploading image');
-            }
         }else{
             $sql = 'UPDATE posts set title= ?, description= ?, id_cat= ? WHERE id_post= ?';
             $db->updateData($sql , [$title, $description, $id_cat, $id_post]);
         }
     }catch(Exception $e) {
-        echo '<script>alert("error: ' .$e->getMessage(). '")</script>';
+        echo '<script>alert("error lors de la modification !")</script>';
     }   
 }
 

@@ -31,6 +31,7 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\users.php';
             <div class="d-flex justify-content-between align-items-center">
                 <h3 class="text-dark">Liste des utilisateurs</h3>
             </div>
+            <div class="table-responsive">
             <table class="table mt-3" id="myTable">
                 <thead class="table-dark">
                     <th scope="col">ID user</th>
@@ -74,6 +75,7 @@ include_once 'C:\xampp\htdocs\CultureDev\app\controller\users.php';
 	?> 
                 </tbody>
             </table>
+            </div>
         </div>
 
 
