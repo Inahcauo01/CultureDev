@@ -128,7 +128,7 @@ if(!isset($_SESSION['id_user']))    header("Location: ../index.php");
                         <input type="hidden" name="post-id[]" id="post-id">
                         <div class="mb-3">
                             <label class="form-label">Title</label>
-                            <input type="text" class="form-control" id="post-title" name="post-title[]" required/>
+                            <input type="text" class="form-control post-title" id="post-title"  name="post-title[]" required/>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Categories</label>
@@ -145,11 +145,11 @@ if(!isset($_SESSION['id_user']))    header("Location: ../index.php");
                         </div>
                         <div class="mb-3">
                             <label class="form-label text-dark">Image</label>
-                            <input type="file" class="form-control" id="image" name="image[]" />
+                            <input type="file" class="form-control" id="image" name="image[]" accept=".jpg, .jpeg, .png, .webp, .jfif"/>
                         </div>
                         <div class="mb-3">
                             <label class="form-label text-dark">Description</label>
-                            <textarea id="editor" class="w-100" rows="10" name="post-description[]"></textarea>
+                            <textarea id="editor" class="inputTextArea w-100" rows="7" name="post-description[]"></textarea>
                         </div>
                         <hr>
                     </div>
@@ -190,9 +190,9 @@ if(!isset($_SESSION['id_user']))    header("Location: ../index.php");
     } );
 
     // editeur
-    var quill = new Quill('#editor', {
-        theme: 'snow'
-    });
+    // var quill = new Quill('#editor', {
+    //     theme: 'snow'
+    // });
 
 
 	// vider les champs lorsqu'on click sur ajouter jeu
@@ -272,6 +272,30 @@ window.addEventListener('resize',()=>{
     }
 })
 
+// form validation
+// inputTitle.addEventListener("blur", ()=>{
+document.querySelector("#btnSave").addEventListener('click',(e)=>{
+    document.querySelectorAll(".post-title").forEach(inputTitle => {
+        let re = /[a-zA-Z1-9]{1,20}/;
+        if(inputTitle.value=='' || !re.test(inputTitle.value)){
+            inputTitle.style.border = "2px solid red";
+            e.preventDefault();
+        }else{
+            inputTitle.style.border = "1px solid gray";
+        }
+    })
+
+    document.querySelectorAll(".inputTextArea").forEach(inputTextArea => {
+        if(inputTextArea.value==''){
+            inputTitle.style.border = "2px solid red";
+            e.preventDefault();
+        }else{
+            inputTitle.style.border = "1px solid gray";
+        }
+    })
+})
+
+// });
 </script>
 </body>
 </html>

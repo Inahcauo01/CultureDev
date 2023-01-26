@@ -153,7 +153,7 @@ var myChart = new Chart(ctx, {
     data: {
         labels: <?php echo json_encode($labels); ?>,
         datasets: [{
-            label: 'Nombre de Posts par Categorie',
+            label: 'Nombre de Posts par Categorie pour tous les Utilisateurs',
             data: <?php echo json_encode($data); ?>,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',

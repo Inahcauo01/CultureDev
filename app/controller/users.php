@@ -8,7 +8,7 @@ if(isset($_POST['loginBtn'])){
     $passWord = md5($_POST["login-pwd"]);
     $param    = [$email,$passWord];
 
-    $nbRow  = $db->numberRow("SELECT * FROM users WHERE email=? AND password=?",$param);
+    $nbRow    = $db->numberRow("SELECT * FROM users WHERE email=? AND password=?",$param);
     
     if($nbRow!=0){
         $getrow = $db->getRow("SELECT * FROM users WHERE email=? AND password=?",$param);
@@ -17,7 +17,7 @@ if(isset($_POST['loginBtn'])){
         $_SESSION["id_user"] = $getrow['id_user'];
         header("location: pages/dashboard.php");
     }else{
-        $erreurSignin="Invalid email or password";
+        $_SESSION["msg"]="Invalid email or password";
     }
 }
 
@@ -29,13 +29,13 @@ if(isset($_POST['signupBtn'])){
 
     $nbRowEmail=$db->numberRow("SELECT * FROM users WHERE email=?", [$signupEmail]);
     if($nbRowEmail != 0){
-        $erreur="Cet email est déja existé !";
+        $_SESSION["msg"]="Cet email est déja existé !";
     }else{
         try{
             $db->insertData("INSERT INTO users (fname,lname,email,password) VALUES(?,?,?,?)",array($signupFname, $signupLname, $signupEmail, $signupPwd));
-            echo "<script>alert(\"insertion a bien ete effectuer\")</script>";
+            $_SESSION["msg"]="insertion a bien ete effectuer";
         }catch (customException $e) {
-            echo "Error lors de l'insertion ! ".$e->errorMessage();
+            $_SESSION["msg"]= "Error lors de l'insertion ! ".$e->errorMessage();
         }
     }
 }
