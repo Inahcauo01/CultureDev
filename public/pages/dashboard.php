@@ -25,8 +25,8 @@ if(!isset($_SESSION['id_user']))    header("Location: ../index.php");
                     <i class="fa-solid fa-x hide-bar text-white me-2"></i>
                 </div>
             </div>
-            <a href="dashboard.php" class="links"><i class="fa-solid fa-house"></i><span class="text-side"> Accuil</span></a>
-            <a href="posts.php" class="active links"><i class="fa-solid fa-newspaper"></i><span class="text-side"> Postes</span></a>
+            <a href="dashboard.php" class="active links"><i class="fa-solid fa-house"></i><span class="text-side"> Accuil</span></a>
+            <a href="posts.php" class="links"><i class="fa-solid fa-newspaper"></i><span class="text-side"> Postes</span></a>
             <a href="categories.php" class="links"><i class="fa-solid fa-layer-group"></i><span class="text-side"> Categories</span></a>
             <a href="utilisateurs.php" class="links"><i class="fa-solid fa-users"></i><span class="text-side"> Users</span></a>
             <a href="allposts.php" class="links"><i class="fa-solid fa-users"></i><span class="text-side"> All posts</span></a>
@@ -36,9 +36,9 @@ if(!isset($_SESSION['id_user']))    header("Location: ../index.php");
         </div>
 
     <div class="container p-4 main">
-        <div class="d-flex justify-content-between flex-wrap">   
+        <div class="d-flex justify-content-between flex-wrap row w-100">   
 
-            <div class="card" style="width: 18rem;">
+            <div class="card col-md-3">
                 <div class="card-body">
                     <h5 class="card-title">Moyenne de post/user</h5>
                     <div class=""><?php echo $db->totalRow("
@@ -48,28 +48,44 @@ if(!isset($_SESSION['id_user']))    header("Location: ../index.php");
                     </div>
                 </div>
             </div>
-            <div class="card" style="width: 18rem;">
+            <div class="card col-md-3">
                 <div class="card-body">
                     <h5 class="card-title">Nombre de Posts</h5>
                     <div class=""><?php echo $db->totalRow("SELECT * FROM posts"); ?></div>
                 </div>
             </div>
-            <div class="card" style="width: 18rem;">
+            <div class="card col-md-3">
                 <div class="card-body">
                     <h5 class="card-title">Nombre de Categories</h5>
                     <div class=""><?php echo $db->totalRow("SELECT * FROM categories"); ?></div>
                 </div>
             </div>
-            <div class="card" style="width: 18rem;">
+            <div class="card col-md-3">
                 <div class="card-body">
                     <h5 class="card-title">Nombre des Utilisateurs</h5>
                     <div class=""><?php echo $db->totalRow("SELECT * FROM users"); ?></div>
                 </div>
             </div>
 
-        </div>    
-    </div>
+        </div>   
+        
+<!-- chart -->
+<?php
+    //Retrieve data from the database
+$sql    = "select c.nom_cat, count(id_post) as nbr from posts p, categories c where p.id_cat=c.id_cat group by nom_cat";
+$result = $db->getAllrows($sql);
 
+//Format the data for Chart.js
+$labels = array();
+$data = array();
+foreach ($result as $row) {
+    $labels[] = $row['nom_cat'];
+    $data[] = $row['nbr'];
+}
+?>
+<canvas id="myChart"></canvas>
+    
+</div>
 
 </div>
 
@@ -79,6 +95,7 @@ if(!isset($_SESSION['id_user']))    header("Location: ../index.php");
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
     <!-- <script src="assets/js/script.js"></script> -->
     <script>
     // confirmer la suppression
@@ -128,6 +145,51 @@ window.addEventListener('resize',()=>{
         });
     }
 })
+
+// Graphe chart.js
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: <?php echo json_encode($labels); ?>,
+        datasets: [{
+            label: 'Nombre de Posts par Categorie',
+            data: <?php echo json_encode($data); ?>,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                    stepSize: 1,
+                    callback: function(value, index, values) {
+                        return value.toFixed(0);
+                    }
+                }
+            }]
+        }
+    }
+
+});
+
 </script>
 </body>
 </html>
