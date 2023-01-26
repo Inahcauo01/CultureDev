@@ -17,15 +17,23 @@ if(!isset($_SESSION['id_user']))    header("Location: ../index.php");
 </head>
 <body>
 <div class="dash-container">
-    <div class="d-flex flex-column sidebar bg-dark text-white">
-        <h2>Dashborad</h2>
-        <a href="#" class="active"><i class="fa-solid fa-house"></i><span class="text-side"> Accuil</span></a>
-        <a href="posts.php"><i class="fa-solid fa-newspaper"></i><span class="text-side"> Postes</span></a>
-        <a href="categories.php"><i class="fa-solid fa-layer-group"></i><span class="text-side"> Categories</span></a>
-        <a href="utilisateurs.php"><i class="fa-solid fa-users"></i><span class="text-side"> Users</span></a>
-        <a href="allposts.php" class="links"><i class="fa-solid fa-users"></i><span class="text-side"> All posts</span></a>
-        <a href="#" class="deconnecter"><i class="fa-solid fa-right-from-bracket"></i><span class="text-side"> Deconnecter</span></a>
-    </div>
+        <div class="d-flex flex-column sidebar bg-dark text-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="text-side-title">Dashborad</h2>
+                <div>
+                    <i class="fa-solid fa-bars fa-2x humberger text-white"></i>
+                    <i class="fa-solid fa-x hide-bar text-white me-2"></i>
+                </div>
+            </div>
+            <a href="dashboard.php" class="links"><i class="fa-solid fa-house"></i><span class="text-side"> Accuil</span></a>
+            <a href="posts.php" class="active links"><i class="fa-solid fa-newspaper"></i><span class="text-side"> Postes</span></a>
+            <a href="categories.php" class="links"><i class="fa-solid fa-layer-group"></i><span class="text-side"> Categories</span></a>
+            <a href="utilisateurs.php" class="links"><i class="fa-solid fa-users"></i><span class="text-side"> Users</span></a>
+            <a href="allposts.php" class="links"><i class="fa-solid fa-users"></i><span class="text-side"> All posts</span></a>
+            <form action="posts.php" method="post">
+                <button name="logout" class="deconnecter links bg-transparent text-white border-0"><i class="fa-solid fa-right-from-bracket"></i><span class="text-side"> Deconnecter</span></button>
+            </form>
+        </div>
 
     <div class="container p-4 main">
         <div class="d-flex justify-content-between flex-wrap">   
@@ -87,6 +95,39 @@ if(!isset($_SESSION['id_user']))    header("Location: ../index.php");
     $(document).ready( function () {
         $('#myTable').DataTable();
     } );
+
+    
+// shownig bar humberger button
+document.querySelector(".humberger").addEventListener("click", ()=>{
+    document.querySelector(".hide-bar").style.display = "block";
+    document.querySelector(".humberger").style.display = "none";
+    document.querySelectorAll(".links").forEach(link => {
+        link.style.display="block";
+    });
+})
+// hiding bar X button
+document.querySelector(".hide-bar").addEventListener("click", ()=>{
+    document.querySelector(".humberger").style.display = "block";
+    document.querySelector(".hide-bar").style.display = "none";
+    document.querySelectorAll(".links").forEach(link => {
+        link.style.display="none";
+    });
+})
+// width responsive
+window.addEventListener('resize',()=>{
+    if(window.innerWidth > 700) {
+        document.querySelector(".hide-bar").style.display = "none";
+        document.querySelector(".humberger").style.display = "none";
+        document.querySelectorAll(".links").forEach(link => {
+            link.style.display="block";
+        });
+    }else{
+        document.querySelector(".humberger").style.display = "block";
+        document.querySelectorAll(".links").forEach(link => {
+            link.style.display="none";
+        });
+    }
+})
 </script>
 </body>
 </html>

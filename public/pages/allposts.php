@@ -117,56 +117,6 @@ if(!isset($_SESSION['id_user']))    header("Location: ../index.php");
         $('#myTable').DataTable();
     } );
 
-    // editeur
-    var quill = new Quill('#editor', {
-        theme: 'snow'
-    });
-
-
-	// vider les champs lorsqu'on click sur ajouter jeu
-	document.getElementById('add-post').addEventListener('click', ()=>{
-			document.getElementById('form-post').reset();
-		    document.getElementById("modalTitle").innerHTML    = "Add post";
-			document.getElementById('btnSave').style.display   = 'block';
-			document.getElementById('btnUpdate').style.display = 'none';
-			document.getElementById('add-del-form').classList.remove("hiden");
-	});
-
-	function updateButton(id, title, description, id_cat){
-		document.getElementById("modalTitle").innerHTML     = "Edit post";
-		document.getElementById('btnSave').style.display    = 'none';
-		document.getElementById('btnUpdate').style.display  = 'block';
-			document.getElementById('add-del-form').classList.add("hiden");
-
-
-		document.getElementById("post-id").value    = id;
-		document.getElementById("post-title").value = title;
-		document.getElementById("editor").value     = description;
-    
-		document.getElementById(id_cat).selected    = true;
-	}
-
-    // adding multiple form
-document.getElementById("add-form-btn").addEventListener("click", ()=>{
-    var formContainer = document.querySelector(".modal-body");
-    var newForm       = document.querySelector("#input-container").cloneNode(true);
-    // newForm.reset();
-    formContainer.appendChild(newForm);
-    if(formContainer.childNodes.length >3){
-        document.querySelector("#remove-form-btn").classList.remove("hide")
-    }
-});
-    // removing form
-document.getElementById("remove-form-btn").addEventListener("click", ()=>{
-    var formContainer = document.querySelector(".modal-body");
-    var newForm       = document.querySelector("#input-container");
-    if(formContainer.childNodes.length > 3){
-        formContainer.removeChild(formContainer.lastChild);
-    }
-    if(formContainer.childNodes.length < 4){
-        document.querySelector("#remove-form-btn").classList.add("hide")
-    }
-});
 
 // shownig bar humberger button
 document.querySelector(".humberger").addEventListener("click", ()=>{
